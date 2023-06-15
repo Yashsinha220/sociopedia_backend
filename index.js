@@ -14,6 +14,10 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 const {register} = require('./controllers/UserControllers.js')
 
 const authroute= require('./routes/auth.js')
+const userroute = require('./routes/user.js')
+const postroute = require('./routes/post.js')
+const verifyToken = require('./middlewares/auth.js')
+const { createPost }  = require('./controllers/post.js');
 
 // configuration
 
@@ -51,9 +55,13 @@ const upload = multer({ storage: storage });
 
 // routes with file
 app.post('/auth/register' , upload.single('picture') , register );
+app.post("/posts" , verifyToken , upload.single("picture") , createPost);
 
 // routers
 app.use('/auth' , authroute);
+app.use("/users",userroute)
+app.use("/posts" , postroute)
+
 
 // mogoose setup
 const PORT = 3001;
