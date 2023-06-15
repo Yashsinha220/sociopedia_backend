@@ -3,13 +3,13 @@ const { model, Schema } = require("mongoose");
 
 const userschema = new Schema(
   {
-    firstname: {
+    firstName: {
       type: String,
       required: true,
       min: 2,
       max: 50,
     },
-    lastname: {
+    lastName: {
       type: String,
       required: true,
       min: 2,

@@ -8,11 +8,11 @@ const saltround = 10;
 const register = async (req, res, next) => {
   try {
     const {
-      firstname,
-      lastname,
+      firstName,
+      lastName,
       email,
       password,
-      picturepath,
+      picutrepath,
       friends,
       location,
       occuptaion,
@@ -24,11 +24,11 @@ const register = async (req, res, next) => {
     const passwordhash = await bcrypt.hash(password, salt);
 
     const newUser = new User({
-      firstname,
-      lastname,
+      firstName,
+      lastName,
       email,
       password: passwordhash,
-      picturepath,
+      picutrepath,
       friends,
       location,
       occuptaion,
@@ -37,6 +37,7 @@ const register = async (req, res, next) => {
     });
 
     const savedUser = await newUser.save();
+    console.log(savedUser);
     return res.status(201).json(savedUser);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -48,6 +49,7 @@ const register = async (req, res, next) => {
 const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
+    console.log(email , password)
 
     const user = await User.findOne({ email: email });
     if (!user) {
@@ -65,16 +67,7 @@ const login = async (req, res, next) => {
     console.log(token)
     return res.status(200).json({
       token: token,
-      email: user.email,
-      firstname: user.firstname,
-      lastname: user.lastname,
-      id: user._id,
-      picturepath: user.picturepath,
-      friends: user.friends,
-      location: user.location,
-      occuptaion: user.occuptaion,
-      viewedProfile: user.viewedProfile,
-      impressions: user.impressions,
+      user : user
     });
   } catch (error) {
     res.status(500).json({ error: error.message });

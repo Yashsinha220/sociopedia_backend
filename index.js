@@ -30,14 +30,18 @@ app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "30mb" }));
 // this will use the assets file
-app.use("/assets", express.static(path.join(__dirname, "public/assets")));
+const newpath = path.join(__dirname,"/public/assets");
+// console.log(newpath)
+// app.use("/assets", express.static(path.join(__dirname, "public/assets")));
+app.use("/assets" ,express.static(newpath) )
 dotenv.config();
 
 // file storage configuration
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "/public/assets");
+    // this should be the whole path to store the files
+    cb(null, path.join(__dirname,"/public/assets"));
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname);
